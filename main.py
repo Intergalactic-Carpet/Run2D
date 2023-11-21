@@ -1792,7 +1792,7 @@ def game():
 
             if draw_button(screen_width / 2, screen_height / 2 + 35, 'Exit', center=True, display=s):
                 leave = True
-            s = pygame.transform.scale_by(s, pause_level)
+            s = smoothscale_by(s, pause_level)
             screen.blit(s, (screen_width / 2 * (1 - pause_level), 0))
 
         if play_level > 1:
@@ -1833,6 +1833,12 @@ def game():
                 pygame.quit()
                 quit()
         clock.tick(60)
+
+
+def smoothscale_by(surface, scale_factor):
+    return pygame.transform.smoothscale(surface,
+                                        (int(surface.get_width() * scale_factor),
+                                         int(surface.get_height() * scale_factor)))
 
 
 def get_saves(path='users.ini', print_data=True):
@@ -1989,10 +1995,12 @@ def main():
         "   - Fixed parsing error in changelog for overflowing text",
         "   - Added Fade when entering game",
         "   - Keybinds now clear when clicked",
+        "   - Fixed game crashing when pausing",
         "",
         "",
         "   --- KNOWN BUGS ---",
         "   - Lag when pausing game",
+        "   - Wheels become out of sync when turning fast",
         "",
         "",
         "   --- UPCOMING FEATURES ---",
